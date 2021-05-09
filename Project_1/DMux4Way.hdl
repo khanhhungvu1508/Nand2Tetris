@@ -1,0 +1,46 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux4Way.hdl
+
+/**
+ * 4-way demultiplexor:
+ * {a, b, c, d} = {in, 0, 0, 0} if sel == 00
+ *                {0, in, 0, 0} if sel == 01
+ *                {0, 0, in, 0} if sel == 10
+ *                {0, 0, 0, in} if sel == 11
+ */
+
+CHIP DMux4Way {
+    IN in, sel[2];
+    OUT a, b, c, d;
+
+    PARTS:
+    // Put your code here:
+    Nand(a = sel[0], b = sel[0], out = notSel0);
+    Nand(a = sel[1], b = sel[1], out = notSel1);
+
+    // Find a = in * not(sel[0]) * not(sel[1])
+    Nand(a = in, b = notSel0, out = notAB1);
+    Nand(a = notAB1, b = notAB1, out = AB1);
+    Nand(a = AB1, b = notSel1, out = notABC1);
+    Nand(a = notABC1, b = notABC1, out = a);
+
+    // Find b = in * sel[0] * not(sel[1])
+    Nand(a = in, b = sel[0], out = notAB2);
+    Nand(a = notAB2, b = notAB2, out = AB2);
+    Nand(a = AB2, b = notSel1, out = notABC2);
+    Nand(a = notABC2, b = notABC2, out = b);
+
+    // Find c = in * not(sel[0]) * sel[1]
+    Nand(a = in, b = notSel0, out = notAB3);
+    Nand(a = notAB3, b = notAB3, out = AB3);
+    Nand(a = AB3, b = sel[1], out = notABC3);
+    Nand(a = notABC3, b = notABC3, out = c);
+
+    // Find d = in * sel[0] * sel[1]
+    Nand(a = in, b = sel[0], out = notAB4);
+    Nand(a = notAB4, b = notAB4, out = AB4);
+    Nand(a = AB4, b = sel[1], out = notABC4);
+    Nand(a = notABC4, b = notABC4, out = d);	
+}
