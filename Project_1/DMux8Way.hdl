@@ -1,0 +1,87 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/DMux8Way.hdl
+
+/**
+ * 8-way demultiplexor:
+ * {a, b, c, d, e, f, g, h} = {in, 0, 0, 0, 0, 0, 0, 0} if sel == 000
+ *                            {0, in, 0, 0, 0, 0, 0, 0} if sel == 001
+ *                            etc.
+ *                            {0, 0, 0, 0, 0, 0, 0, in} if sel == 111
+ */
+
+CHIP DMux8Way {
+    IN in, sel[3];
+    OUT a, b, c, d, e, f, g, h;
+
+    PARTS:
+    // Put your code here:
+    Nand(a = sel[2], b = sel[2], out = notSel2);
+    Nand(a = sel[1], b = sel[1], out = notSel1);
+    Nand(a = sel[0], b = sel[0], out = notSel0);
+
+    // Find AB1 = in * not(sel[2])
+    Nand(a = in, b = notSel2, out = notinNotSel2);
+    Nand(a = notinNotSel2, b = notinNotSel2, out = AB1);
+    
+    // Find AB2 = in * sel[2]
+    Nand(a = in, b = sel[2], out = notinSel2);
+    Nand(a = notinSel2, b = notinSel2, out = AB2); 
+
+    // Find CD1 = not(sel[1]) * not(sel[0])
+    Nand(a = notSel1, b = notSel0, out = notSel1notSel0);
+    Nand(a = notSel1notSel0, b = notSel1notSel0, out = CD1);
+
+    // Find CD2 = not(sel[1]) * sel[0]
+    Nand(a = notSel1, b = sel[0], out = notSel1Sel0);
+    Nand(a = notSel1Sel0, b = notSel1Sel0, out = CD2);
+
+    // Find CD3 = sel[1] * not(sel[0])
+    Nand(a = sel[1], b = notSel0, out = Sel1notSel0);
+    Nand(a = Sel1notSel0, b = Sel1notSel0, out = CD3);
+
+    // Find CD4 = sel[1] * sel[0]
+    Nand(a = sel[1], b = sel[0], out = Sel1Sel0);
+    Nand(a = Sel1Sel0, b = Sel1Sel0, out = CD4); 
+
+    // Find a = in * not(sel[2]) * not(sel[1]) * not(sel[0])
+    //        = AB1 * CD1
+    Nand(a = AB1, b = CD1, out = notABCD11);
+    Nand(a = notABCD11, b = notABCD11, out = a);
+
+    // Find b = in * not(sel[2]) * not(sel[1]) * sel[0]
+    //        = AB1 * CD2
+    Nand(a = AB1, b = CD2, out = notABCD12);
+    Nand(a = notABCD12, b = notABCD12, out = b);
+
+    // Find c = in * not(sel[2]) * sel[1] * not(sel[0])
+    //        = AB1 * CD3
+    Nand(a = AB1, b = CD3, out = notABCD13);
+    Nand(a = notABCD13, b = notABCD13, out = c);
+
+    // Find d = in * not(sel[2]) * sel[1] * sel[0]
+    //        = AB1 * CD4
+    Nand(a = AB1, b = CD4, out = notABCD14);
+    Nand(a = notABCD14, b = notABCD14, out = d);
+
+    // Find e = in * sel[2] * not(sel[1]) * not(sel[0])
+    //        = AB2 * CD1
+    Nand(a = AB2, b = CD1, out = notABCD21);
+    Nand(a = notABCD21, b = notABCD21, out = e);
+
+    // Find f = in * sel[2] * not(sel[1]) * sel[0]
+    //        = AB2 * CD2
+    Nand(a = AB2, b = CD2, out = notABCD22);
+    Nand(a = notABCD22, b = notABCD22, out = f);
+
+    // Find g = in * sel[2] * sel[1] * not(sel[0])
+    //        = AB2 * CD3
+    Nand(a = AB2, b = CD3, out = notABCD23);
+    Nand(a = notABCD23, b = notABCD23, out = g);
+
+    // Find h = in * sel[2] * sel[1] * sel[0]
+    //        = AB2 * CD4
+    Nand(a = AB2, b = CD4, out = notABCD24);
+    Nand(a = notABCD24, b = notABCD24, out = h);  
+}
