@@ -1,0 +1,53 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Or8Way.hdl
+
+/**
+ * 8-way Or: 
+ * out = (in[0] or in[1] or ... or in[7])
+ */
+
+CHIP Or8Way {
+    IN in[8];
+    OUT out;
+
+    PARTS:
+    // Put your code here:
+    // Find or01 = in[0] or in[1]
+    Nand(a = in[0], b = in[0], out = Notin0);
+    Nand(a = in[1], b = in[1], out = Notin1);
+    Nand(a = Notin0, b = Notin1, out = or01);
+
+    // Find or23 = in[2] or in[3]
+    Nand(a = in[2], b = in[2], out = Notin2);
+    Nand(a = in[3], b = in[3], out = Notin3);
+    Nand(a = Notin2, b = Notin3, out = or23);
+
+    // Find or45 = in[4] or in[5]
+    Nand(a = in[4], b = in[4], out = Notin4);
+    Nand(a = in[5], b = in[5], out = Notin5);
+    Nand(a = Notin4, b = Notin5, out = or45);
+
+    // Find or67 = in[6] or in[7]
+    Nand(a = in[6], b = in[6], out = Notin6);
+    Nand(a = in[7], b = in[7], out = Notin7);
+    Nand(a = Notin6, b = Notin7, out = or67);
+
+    // Find or0123 = in[0] or in[1] or in[2] or in[3]
+    //             = or01 or or23
+    Nand(a = or01, b = or01, out = Notor01);
+    Nand(a = or23, b = or23, out = Notor23);
+    Nand(a = Notor01, b = Notor23, out = or0123);
+
+    // Find or4567 = in[4] or in[5] or in[6] or in[7]
+    //             = or45 or or67
+    Nand(a = or45, b = or45, out = Notor45);
+    Nand(a = or67, b = or67, out = Notor67);
+    Nand(a = Notor45, b = Notor67, out = or4567);
+
+    // Find out = or0123 or or4567 
+    Nand(a = or0123, b = or0123, out = Notor0123);
+    Nand(a = or4567, b = or4567, out = Notor4567);
+    Nand(a = Notor0123, b = Notor4567, out = out);   
+}
