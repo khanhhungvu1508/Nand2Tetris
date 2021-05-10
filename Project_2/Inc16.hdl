@@ -1,0 +1,141 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/02/Inc16.hdl
+
+/**
+ * 16-bit incrementer:
+ * out = in + 1 (arithmetic addition)
+ */
+
+CHIP Inc16 {
+    IN in[16];
+    OUT out[16];
+
+    PARTS:
+    // Put you code here:
+    // Find out[0] = not(in[0]) and carry0 = in[0]
+    Nand(a = in[0], b = in[0], out = out[0]);
+    Nand(a = in[0], b = in[0], out = notIn0);
+    Nand(a = notIn0, b = notIn0, out = carry0);
+
+    // Find out[1] = in[1] + carry0 and carry1 = mem(in[1] + carry0)
+    Nand(a = carry0, b = carry0, out = notCarry0);
+    Nand(a = in[1], b = in[1], out = notIn1);
+    Nand(a = notIn1, b = carry0, out = notIn1Carry0);
+    Nand(a = in[1], b = notCarry0, out = in1notCarry0);
+    Nand(a = notIn1Carry0, b = in1notCarry0, out = out[1]);
+    Nand(a = in[1], b = carry0, out = in1carry0);
+    Nand(a = in1carry0, b = in1carry0, out = carry1);
+    
+    // Similarly for out[2..15]
+    Nand(a = carry1, b = carry1, out = notCarry1);
+    Nand(a = in[2], b = in[2], out = notIn2);
+    Nand(a = notIn2, b = carry1, out = notIn2Carry1);
+    Nand(a = in[2], b = notCarry1, out = in2notCarry1);
+    Nand(a = notIn2Carry1, b = in2notCarry1, out = out[2]);
+    Nand(a = in[2], b = carry1, out = in2carry1);
+    Nand(a = in2carry1, b = in2carry1, out = carry2);
+
+    Nand(a = carry2, b = carry2, out = notCarry2);
+    Nand(a = in[3], b = in[3], out = notIn3);
+    Nand(a = notIn3, b = carry2, out = notIn3Carry2);
+    Nand(a = in[3], b = notCarry2, out = in3notCarry2);
+    Nand(a = notIn3Carry2, b = in3notCarry2, out = out[3]);
+    Nand(a = in[3], b = carry2, out = in3carry2);
+    Nand(a = in3carry2, b = in3carry2, out = carry3);
+
+    Nand(a = carry3, b = carry3, out = notCarry3);
+    Nand(a = in[4], b = in[4], out = notIn4);
+    Nand(a = notIn4, b = carry3, out = notIn4Carry3);
+    Nand(a = in[4], b = notCarry3, out = in4notCarry3);
+    Nand(a = notIn4Carry3, b = in4notCarry3, out = out[4]);
+    Nand(a = in[4], b = carry3, out = in4carry3);
+    Nand(a = in4carry3, b = in4carry3, out = carry4);
+
+    Nand(a = carry4, b = carry4, out = notCarry4);
+    Nand(a = in[5], b = in[5], out = notIn5);
+    Nand(a = notIn5, b = carry4, out = notIn5Carry4);
+    Nand(a = in[5], b = notCarry4, out = in5notCarry4);
+    Nand(a = notIn5Carry4, b = in5notCarry4, out = out[5]);
+    Nand(a = in[5], b = carry4, out = in5carry4);
+    Nand(a = in5carry4, b = in5carry4, out = carry5);
+
+    Nand(a = carry5, b = carry5, out = notCarry5);
+    Nand(a = in[6], b = in[6], out = notIn6);
+    Nand(a = notIn6, b = carry5, out = notIn6Carry5);
+    Nand(a = in[6], b = notCarry5, out = in6notCarry5);
+    Nand(a = notIn6Carry5, b = in6notCarry5, out = out[6]);
+    Nand(a = in[6], b = carry5, out = in6carry5);
+    Nand(a = in6carry5, b = in6carry5, out = carry6);
+
+    Nand(a = carry6, b = carry6, out = notCarry6);
+    Nand(a = in[7], b = in[7], out = notIn7);
+    Nand(a = notIn7, b = carry6, out = notIn7Carry6);
+    Nand(a = in[7], b = notCarry6, out = in7notCarry6);
+    Nand(a = notIn7Carry6, b = in7notCarry6, out = out[7]);
+    Nand(a = in[7], b = carry6, out = in7carry6);
+    Nand(a = in7carry6, b = in7carry6, out = carry7);
+
+    Nand(a = carry7, b = carry7, out = notCarry7);
+    Nand(a = in[8], b = in[8], out = notIn8);
+    Nand(a = notIn8, b = carry7, out = notIn8Carry7);
+    Nand(a = in[8], b = notCarry7, out = in8notCarry7);
+    Nand(a = notIn8Carry7, b = in8notCarry7, out = out[8]);
+    Nand(a = in[8], b = carry7, out = in8carry7);
+    Nand(a = in8carry7, b = in8carry7, out = carry8);
+
+    Nand(a = carry8, b = carry8, out = notCarry8);
+    Nand(a = in[9], b = in[9], out = notIn9);
+    Nand(a = notIn9, b = carry8, out = notIn9Carry8);
+    Nand(a = in[9], b = notCarry8, out = in9notCarry8);
+    Nand(a = notIn9Carry8, b = in9notCarry8, out = out[9]);
+    Nand(a = in[9], b = carry8, out = in9carry8);
+    Nand(a = in9carry8, b = in9carry8, out = carry9);
+
+    Nand(a = carry9, b = carry9, out = notCarry9);
+    Nand(a = in[10], b = in[10], out = notIn10);
+    Nand(a = notIn10, b = carry9, out = notIn10Carry9);
+    Nand(a = in[10], b = notCarry9, out = in10notCarry9);
+    Nand(a = notIn10Carry9, b = in10notCarry9, out = out[10]);
+    Nand(a = in[10], b = carry9, out = in10carry9);
+    Nand(a = in10carry9, b = in10carry9, out = carry10);
+
+    Nand(a = carry10, b = carry10, out = notCarry10);
+    Nand(a = in[11], b = in[11], out = notIn11);
+    Nand(a = notIn11, b = carry10, out = notIn11Carry10);
+    Nand(a = in[11], b = notCarry10, out = in11notCarry10);
+    Nand(a = notIn11Carry10, b = in11notCarry10, out = out[11]);
+    Nand(a = in[11], b = carry10, out = in11carry10);
+    Nand(a = in11carry10, b = in11carry10, out = carry11);
+
+    Nand(a = carry11, b = carry11, out = notCarry11);
+    Nand(a = in[12], b = in[12], out = notIn12);
+    Nand(a = notIn12, b = carry11, out = notIn12Carry11);
+    Nand(a = in[12], b = notCarry11, out = in12notCarry11);
+    Nand(a = notIn12Carry11, b = in12notCarry11, out = out[12]);
+    Nand(a = in[12], b = carry11, out = in12carry11);
+    Nand(a = in12carry11, b = in12carry11, out = carry12);
+
+    Nand(a = carry12, b = carry12, out = notCarry12);
+    Nand(a = in[13], b = in[13], out = notIn13);
+    Nand(a = notIn13, b = carry12, out = notIn13Carry12);
+    Nand(a = in[13], b = notCarry12, out = in13notCarry12);
+    Nand(a = notIn13Carry12, b = in13notCarry12, out = out[13]);
+    Nand(a = in[13], b = carry12, out = in13carry12);
+    Nand(a = in13carry12, b = in13carry12, out = carry13);
+
+    Nand(a = carry13, b = carry13, out = notCarry13);
+    Nand(a = in[14], b = in[14], out = notIn14);
+    Nand(a = notIn14, b = carry13, out = notIn14Carry13);
+    Nand(a = in[14], b = notCarry13, out = in14notCarry13);
+    Nand(a = notIn14Carry13, b = in14notCarry13, out = out[14]);
+    Nand(a = in[14], b = carry13, out = in14carry13);
+    Nand(a = in14carry13, b = in14carry13, out = carry14);
+
+    Nand(a = carry14, b = carry14, out = notCarry14);
+    Nand(a = in[15], b = in[15], out = notIn15);
+    Nand(a = notIn15, b = carry14, out = notIn15Carry14);
+    Nand(a = in[15], b = notCarry14, out = in15notCarry14);
+    Nand(a = notIn15Carry14, b = in15notCarry14, out = out[15]);   
+}
