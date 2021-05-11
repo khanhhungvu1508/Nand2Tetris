@@ -1,0 +1,431 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/PC.hdl
+
+/**
+ * A 16-bit counter with load and reset control bits.
+ * if      (reset[t] == 1) out[t+1] = 0
+ * else if (load[t] == 1)  out[t+1] = in[t]
+ * else if (inc[t] == 1)   out[t+1] = out[t] + 1  (integer addition)
+ * else                    out[t+1] = out[t]
+ */
+
+CHIP PC {
+    IN in[16], load, inc, reset;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    // Find out1AddOne[16] = out1[16] + 1
+
+    // Find out1AddOne[0] = not(out1[0]) and carry0 = out1[0]
+    Nand(a = out10, b = out10, out = notout10);
+    Nand(a = out10, b = out10, out = out1AddOne0);
+    Nand(a = notout10, b = notout10, out = carry0);
+
+    // Find out1AddOne[1] = out1[1] + carry0 and 
+    // carry1 = mem(out1[1] + carry0)
+
+    Nand(a = carry0, b = carry0, out = notCarry0);
+    Nand(a = out11, b = out11, out = notOut11);
+    Nand(a = notOut11, b = carry0, out = notOut11Carry0);
+    Nand(a = out11, b = notCarry0, out = out11notCarry0);
+    Nand(a = notOut11Carry0, b = out11notCarry0, out = out1AddOne1);
+    Nand(a = out11, b = carry0, out = out11carry0);
+    Nand(a = out11carry0, b = out11carry0, out = carry1);
+    
+    // Similarly for out1AddOne[2..15]
+    Nand(a = carry1, b = carry1, out = notCarry1);
+    Nand(a = out12, b = out12, out = notOut12);
+    Nand(a = notOut12, b = carry1, out = notOut12Carry1);
+    Nand(a = out12, b = notCarry1, out = out12notCarry1);
+    Nand(a = notOut12Carry1, b = out12notCarry1, out = out1AddOne2);
+    Nand(a = out12, b = carry1, out = out12carry1);
+    Nand(a = out12carry1, b = out12carry1, out = carry2);
+
+    Nand(a = carry2, b = carry2, out = notCarry2);
+    Nand(a = out13, b = out13, out = notOut13);
+    Nand(a = notOut13, b = carry2, out = notOut13Carry2);
+    Nand(a = out13, b = notCarry2, out = out13notCarry2);
+    Nand(a = notOut13Carry2, b = out13notCarry2, out = out1AddOne3);
+    Nand(a = out13, b = carry2, out = out13carry2);
+    Nand(a = out13carry2, b = out13carry2, out = carry3);
+
+    Nand(a = carry3, b = carry3, out = notCarry3);
+    Nand(a = out14, b = out14, out = notOut14);
+    Nand(a = notOut14, b = carry3, out = notOut14Carry3);
+    Nand(a = out14, b = notCarry3, out = out14notCarry3);
+    Nand(a = notOut14Carry3, b = out14notCarry3, out = out1AddOne4);
+    Nand(a = out14, b = carry3, out = out14carry3);
+    Nand(a = out14carry3, b = out14carry3, out = carry4);
+
+    Nand(a = carry4, b = carry4, out = notCarry4);
+    Nand(a = out15, b = out15, out = notOut15);
+    Nand(a = notOut15, b = carry4, out = notOut15Carry4);
+    Nand(a = out15, b = notCarry4, out = out15notCarry4);
+    Nand(a = notOut15Carry4, b = out15notCarry4, out = out1AddOne5);
+    Nand(a = out15, b = carry4, out = out15carry4);
+    Nand(a = out15carry4, b = out15carry4, out = carry5);
+
+    Nand(a = carry5, b = carry5, out = notCarry5);
+    Nand(a = out16, b = out16, out = notOut16);
+    Nand(a = notOut16, b = carry5, out = notOut16Carry5);
+    Nand(a = out16, b = notCarry5, out = out16notCarry5);
+    Nand(a = notOut16Carry5, b = out16notCarry5, out = out1AddOne6);
+    Nand(a = out16, b = carry5, out = out16carry5);
+    Nand(a = out16carry5, b = out16carry5, out = carry6);
+
+    Nand(a = carry6, b = carry6, out = notCarry6);
+    Nand(a = out17, b = out17, out = notOut17);
+    Nand(a = notOut17, b = carry6, out = notOut17Carry6);
+    Nand(a = out17, b = notCarry6, out = out17notCarry6);
+    Nand(a = notOut17Carry6, b = out17notCarry6, out = out1AddOne7);
+    Nand(a = out17, b = carry6, out = out17carry6);
+    Nand(a = out17carry6, b = out17carry6, out = carry7);
+
+    Nand(a = carry7, b = carry7, out = notCarry7);
+    Nand(a = out18, b = out18, out = notOut18);
+    Nand(a = notOut18, b = carry7, out = notOut18Carry7);
+    Nand(a = out18, b = notCarry7, out = out18notCarry7);
+    Nand(a = notOut18Carry7, b = out18notCarry7, out = out1AddOne8);
+    Nand(a = out18, b = carry7, out = out18carry7);
+    Nand(a = out18carry7, b = out18carry7, out = carry8);
+
+    Nand(a = carry8, b = carry8, out = notCarry8);
+    Nand(a = out19, b = out19, out = notOut19);
+    Nand(a = notOut19, b = carry8, out = notOut19Carry8);
+    Nand(a = out19, b = notCarry8, out = out19notCarry8);
+    Nand(a = notOut19Carry8, b = out19notCarry8, out = out1AddOne9);
+    Nand(a = out19, b = carry8, out = out19carry8);
+    Nand(a = out19carry8, b = out19carry8, out = carry9);
+
+    Nand(a = carry9, b = carry9, out = notCarry9);
+    Nand(a = out110, b = out110, out = notOut110);
+    Nand(a = notOut110, b = carry9, out = notOut110Carry9);
+    Nand(a = out110, b = notCarry9, out = out110notCarry9);
+    Nand(a = notOut110Carry9, b = out110notCarry9, out = out1AddOne10);
+    Nand(a = out110, b = carry9, out = out110carry9);
+    Nand(a = out110carry9, b = out110carry9, out = carry10);
+
+    Nand(a = carry10, b = carry10, out = notCarry10);
+    Nand(a = out111, b = out111, out = notOut111);
+    Nand(a = notOut111, b = carry10, out = notOut111Carry10);
+    Nand(a = out111, b = notCarry10, out = out111notCarry10);
+    Nand(a = notOut111Carry10, b = out111notCarry10, out = out1AddOne11);
+    Nand(a = out111, b = carry10, out = out111carry10);
+    Nand(a = out111carry10, b = out111carry10, out = carry11);
+
+    Nand(a = carry11, b = carry11, out = notCarry11);
+    Nand(a = out112, b = out112, out = notOut112);
+    Nand(a = notOut112, b = carry11, out = notOut112Carry11);
+    Nand(a = out112, b = notCarry11, out = out112notCarry11);
+    Nand(a = notOut112Carry11, b = out112notCarry11, out = out1AddOne12);
+    Nand(a = out112, b = carry11, out = out112carry11);
+    Nand(a = out112carry11, b = out112carry11, out = carry12);
+
+    Nand(a = carry12, b = carry12, out = notCarry12);
+    Nand(a = out113, b = out113, out = notOut113);
+    Nand(a = notOut113, b = carry12, out = notOut113Carry12);
+    Nand(a = out113, b = notCarry12, out = out113notCarry12);
+    Nand(a = notOut113Carry12, b = out113notCarry12, out = out1AddOne13);
+    Nand(a = out113, b = carry12, out = out113carry12);
+    Nand(a = out113carry12, b = out113carry12, out = carry13);
+
+    Nand(a = carry13, b = carry13, out = notCarry13);
+    Nand(a = out114, b = out114, out = notOut114);
+    Nand(a = notOut114, b = carry13, out = notOut114Carry13);
+    Nand(a = out114, b = notCarry13, out = out114notCarry13);
+    Nand(a = notOut114Carry13, b = out114notCarry13, out = out1AddOne14);
+    Nand(a = out114, b = carry13, out = out114carry13);
+    Nand(a = out114carry13, b = out114carry13, out = carry14);
+
+    Nand(a = carry14, b = carry14, out = notCarry14);
+    Nand(a = out115, b = out115, out = notOut115);
+    Nand(a = notOut115, b = carry14, out = notOut115Carry14);
+    Nand(a = out115, b = notCarry14, out = out115notCarry14);
+    Nand(a = notOut115Carry14, b = out115notCarry14, out = out1AddOne15);
+
+    // Find resInc[16] = out1AddOne[16] * inc + out1[16] * not(inc)
+    Nand(a = inc, b = inc, out = notinc);
+
+    // Doing first with i = 0
+    Nand(a = out1AddOne0, b = inc, out = notout1AddOne0inc);
+    Nand(a = out10, b = notinc, out = notout10notinc);
+    Nand(a = notout1AddOne0inc, b = notout10notinc, out = resInc0);
+
+    // Similarly with i = [1..15]
+    Nand(a = out1AddOne1, b = inc, out = notout1AddOne1inc);
+    Nand(a = out11, b = notinc, out = notout11notinc);
+    Nand(a = notout1AddOne1inc, b = notout11notinc, out = resInc1);
+
+    Nand(a = out1AddOne2, b = inc, out = notout1AddOne2inc);
+    Nand(a = out12, b = notinc, out = notout12notinc);
+    Nand(a = notout1AddOne2inc, b = notout12notinc, out = resInc2);
+
+    Nand(a = out1AddOne3, b = inc, out = notout1AddOne3inc);
+    Nand(a = out13, b = notinc, out = notout13notinc);
+    Nand(a = notout1AddOne3inc, b = notout13notinc, out = resInc3);
+
+    Nand(a = out1AddOne4, b = inc, out = notout1AddOne4inc);
+    Nand(a = out14, b = notinc, out = notout14notinc);
+    Nand(a = notout1AddOne4inc, b = notout14notinc, out = resInc4);
+
+    Nand(a = out1AddOne5, b = inc, out = notout1AddOne5inc);
+    Nand(a = out15, b = notinc, out = notout15notinc);
+    Nand(a = notout1AddOne5inc, b = notout15notinc, out = resInc5);
+
+    Nand(a = out1AddOne6, b = inc, out = notout1AddOne6inc);
+    Nand(a = out16, b = notinc, out = notout16notinc);
+    Nand(a = notout1AddOne6inc, b = notout16notinc, out = resInc6);
+
+    Nand(a = out1AddOne7, b = inc, out = notout1AddOne7inc);
+    Nand(a = out17, b = notinc, out = notout17notinc);
+    Nand(a = notout1AddOne7inc, b = notout17notinc, out = resInc7);
+
+    Nand(a = out1AddOne8, b = inc, out = notout1AddOne8inc);
+    Nand(a = out18, b = notinc, out = notout18notinc);
+    Nand(a = notout1AddOne8inc, b = notout18notinc, out = resInc8);
+
+    Nand(a = out1AddOne9, b = inc, out = notout1AddOne9inc);
+    Nand(a = out19, b = notinc, out = notout19notinc);
+    Nand(a = notout1AddOne9inc, b = notout19notinc, out = resInc9);
+
+    Nand(a = out1AddOne10, b = inc, out = notout1AddOne10inc);
+    Nand(a = out110, b = notinc, out = notout110notinc);
+    Nand(a = notout1AddOne10inc, b = notout110notinc, out = resInc10);
+
+    Nand(a = out1AddOne11, b = inc, out = notout1AddOne11inc);
+    Nand(a = out111, b = notinc, out = notout111notinc);
+    Nand(a = notout1AddOne11inc, b = notout111notinc, out = resInc11);
+
+    Nand(a = out1AddOne12, b = inc, out = notout1AddOne12inc);
+    Nand(a = out112, b = notinc, out = notout112notinc);
+    Nand(a = notout1AddOne12inc, b = notout112notinc, out = resInc12);
+
+    Nand(a = out1AddOne13, b = inc, out = notout1AddOne13inc);
+    Nand(a = out113, b = notinc, out = notout113notinc);
+    Nand(a = notout1AddOne13inc, b = notout113notinc, out = resInc13);
+
+    Nand(a = out1AddOne14, b = inc, out = notout1AddOne14inc);
+    Nand(a = out114, b = notinc, out = notout114notinc);
+    Nand(a = notout1AddOne14inc, b = notout114notinc, out = resInc14);
+
+    Nand(a = out1AddOne15, b = inc, out = notout1AddOne15inc);
+    Nand(a = out115, b = notinc, out = notout115notinc);
+    Nand(a = notout1AddOne15inc, b = notout115notinc, out = resInc15);
+
+    // Find resLoad[16] = in[16] * load + resInc[16] * not(load)
+    Nand(a = load, b = load, out = notload);
+ 
+    // First doing with i = 0
+    Nand(a = in[0], b = load, out = notin0load);
+    Nand(a = resInc0, b = notload, out = notresInc0notload);
+    Nand(a = notin0load, b = notresInc0notload, out = resLoad0);
+
+    // Similarly with i = [1..15]
+    Nand(a = in[1], b = load, out = notin1load);
+    Nand(a = resInc1, b = notload, out = notresInc1notload);
+    Nand(a = notin1load, b = notresInc1notload, out = resLoad1);
+
+    Nand(a = in[2], b = load, out = notin2load);
+    Nand(a = resInc2, b = notload, out = notresInc2notload);
+    Nand(a = notin2load, b = notresInc2notload, out = resLoad2);
+
+    Nand(a = in[3], b = load, out = notin3load);
+    Nand(a = resInc3, b = notload, out = notresInc3notload);
+    Nand(a = notin3load, b = notresInc3notload, out = resLoad3);
+
+    Nand(a = in[4], b = load, out = notin4load);
+    Nand(a = resInc4, b = notload, out = notresInc4notload);
+    Nand(a = notin4load, b = notresInc4notload, out = resLoad4);
+
+    Nand(a = in[5], b = load, out = notin5load);
+    Nand(a = resInc5, b = notload, out = notresInc5notload);
+    Nand(a = notin5load, b = notresInc5notload, out = resLoad5);
+
+    Nand(a = in[6], b = load, out = notin6load);
+    Nand(a = resInc6, b = notload, out = notresInc6notload);
+    Nand(a = notin6load, b = notresInc6notload, out = resLoad6);
+
+    Nand(a = in[7], b = load, out = notin7load);
+    Nand(a = resInc7, b = notload, out = notresInc7notload);
+    Nand(a = notin7load, b = notresInc7notload, out = resLoad7);
+
+    Nand(a = in[8], b = load, out = notin8load);
+    Nand(a = resInc8, b = notload, out = notresInc8notload);
+    Nand(a = notin8load, b = notresInc8notload, out = resLoad8);
+
+    Nand(a = in[9], b = load, out = notin9load);
+    Nand(a = resInc9, b = notload, out = notresInc9notload);
+    Nand(a = notin9load, b = notresInc9notload, out = resLoad9);
+
+    Nand(a = in[10], b = load, out = notin10load);
+    Nand(a = resInc10, b = notload, out = notresInc10notload);
+    Nand(a = notin10load, b = notresInc10notload, out = resLoad10);
+
+    Nand(a = in[11], b = load, out = notin11load);
+    Nand(a = resInc11, b = notload, out = notresInc11notload);
+    Nand(a = notin11load, b = notresInc11notload, out = resLoad11);
+
+    Nand(a = in[12], b = load, out = notin12load);
+    Nand(a = resInc12, b = notload, out = notresInc12notload);
+    Nand(a = notin12load, b = notresInc12notload, out = resLoad12);
+
+    Nand(a = in[13], b = load, out = notin13load);
+    Nand(a = resInc13, b = notload, out = notresInc13notload);
+    Nand(a = notin13load, b = notresInc13notload, out = resLoad13);
+
+    Nand(a = in[14], b = load, out = notin14load);
+    Nand(a = resInc14, b = notload, out = notresInc14notload);
+    Nand(a = notin14load, b = notresInc14notload, out = resLoad14);
+
+    Nand(a = in[15], b = load, out = notin15load);
+    Nand(a = resInc15, b = notload, out = notresInc15notload);
+    Nand(a = notin15load, b = notresInc15notload, out = resLoad15);
+
+    // Find resReset[16] = resLoad[16] * not(reset)
+    Nand(a = reset, b = reset, out = notreset);
+
+    // Doing first with i = 0
+    Nand(a = resLoad0, b = notreset, out = notresReset0);
+    Nand(a = notresReset0, b = notresReset0, out = resReset0);
+
+    // Similarly with i = [1..15]
+    Nand(a = resLoad1, b = notreset, out = notresReset1);
+    Nand(a = notresReset1, b = notresReset1, out = resReset1);
+
+    Nand(a = resLoad2, b = notreset, out = notresReset2);
+    Nand(a = notresReset2, b = notresReset2, out = resReset2);
+
+    Nand(a = resLoad3, b = notreset, out = notresReset3);
+    Nand(a = notresReset3, b = notresReset3, out = resReset3);
+
+    Nand(a = resLoad4, b = notreset, out = notresReset4);
+    Nand(a = notresReset4, b = notresReset4, out = resReset4);
+
+    Nand(a = resLoad5, b = notreset, out = notresReset5);
+    Nand(a = notresReset5, b = notresReset5, out = resReset5);
+
+    Nand(a = resLoad6, b = notreset, out = notresReset6);
+    Nand(a = notresReset6, b = notresReset6, out = resReset6);
+
+    Nand(a = resLoad7, b = notreset, out = notresReset7);
+    Nand(a = notresReset7, b = notresReset7, out = resReset7);
+
+    Nand(a = resLoad8, b = notreset, out = notresReset8);
+    Nand(a = notresReset8, b = notresReset8, out = resReset8);
+
+    Nand(a = resLoad9, b = notreset, out = notresReset9);
+    Nand(a = notresReset9, b = notresReset9, out = resReset9);
+
+    Nand(a = resLoad10, b = notreset, out = notresReset10);
+    Nand(a = notresReset10, b = notresReset10, out = resReset10);
+
+    Nand(a = resLoad11, b = notreset, out = notresReset11);
+    Nand(a = notresReset11, b = notresReset11, out = resReset11);
+
+    Nand(a = resLoad12, b = notreset, out = notresReset12);
+    Nand(a = notresReset12, b = notresReset12, out = resReset12);
+
+    Nand(a = resLoad13, b = notreset, out = notresReset13);
+    Nand(a = notresReset13, b = notresReset13, out = resReset13);
+
+    Nand(a = resLoad14, b = notreset, out = notresReset14);
+    Nand(a = notresReset14, b = notresReset14, out = resReset14);
+
+    Nand(a = resLoad15, b = notreset, out = notresReset15);
+    Nand(a = notresReset15, b = notresReset15, out = resReset15);
+
+    // Find loadBit = inc or load or reset
+    Nand(a = notinc, b = notload, out = incorload);
+    Nand(a = incorload, b = incorload, out = notincorload);
+    Nand(a = notincorload, b = notreset, out = loadBit);
+
+    // Find out2[16] = resReset[i] * loadBit + out1[16] * not(loadBit);
+    Nand(a = loadBit, b = loadBit, out = notloadBit);
+
+    // Doing first with i = 0
+    Nand(a = resReset0, b = loadBit, out = notresReset0loadBit);
+    Nand(a = out10, b = notloadBit, out = notout10notloadBit);
+    Nand(a = notresReset0loadBit, b = notout10notloadBit, out = out20);
+
+    // Similarly with i = [1..15]
+    Nand(a = resReset1, b = loadBit, out = notresReset1loadBit);
+    Nand(a = out11, b = notloadBit, out = notout11notloadBit);
+    Nand(a = notresReset1loadBit, b = notout11notloadBit, out = out21);
+
+    Nand(a = resReset2, b = loadBit, out = notresReset2loadBit);
+    Nand(a = out12, b = notloadBit, out = notout12notloadBit);
+    Nand(a = notresReset2loadBit, b = notout12notloadBit, out = out22);
+
+    Nand(a = resReset3, b = loadBit, out = notresReset3loadBit);
+    Nand(a = out13, b = notloadBit, out = notout13notloadBit);
+    Nand(a = notresReset3loadBit, b = notout13notloadBit, out = out23);
+
+    Nand(a = resReset4, b = loadBit, out = notresReset4loadBit);
+    Nand(a = out14, b = notloadBit, out = notout14notloadBit);
+    Nand(a = notresReset4loadBit, b = notout14notloadBit, out = out24);
+
+    Nand(a = resReset5, b = loadBit, out = notresReset5loadBit);
+    Nand(a = out15, b = notloadBit, out = notout15notloadBit);
+    Nand(a = notresReset5loadBit, b = notout15notloadBit, out = out25);
+
+    Nand(a = resReset6, b = loadBit, out = notresReset6loadBit);
+    Nand(a = out16, b = notloadBit, out = notout16notloadBit);
+    Nand(a = notresReset6loadBit, b = notout16notloadBit, out = out26);
+
+    Nand(a = resReset7, b = loadBit, out = notresReset7loadBit);
+    Nand(a = out17, b = notloadBit, out = notout17notloadBit);
+    Nand(a = notresReset7loadBit, b = notout17notloadBit, out = out27);
+
+    Nand(a = resReset8, b = loadBit, out = notresReset8loadBit);
+    Nand(a = out18, b = notloadBit, out = notout18notloadBit);
+    Nand(a = notresReset8loadBit, b = notout18notloadBit, out = out28);
+
+    Nand(a = resReset9, b = loadBit, out = notresReset9loadBit);
+    Nand(a = out19, b = notloadBit, out = notout19notloadBit);
+    Nand(a = notresReset9loadBit, b = notout19notloadBit, out = out29);
+
+    Nand(a = resReset10, b = loadBit, out = notresReset10loadBit);
+    Nand(a = out110, b = notloadBit, out = notout110notloadBit);
+    Nand(a = notresReset10loadBit, b = notout110notloadBit, out = out210);
+
+    Nand(a = resReset11, b = loadBit, out = notresReset11loadBit);
+    Nand(a = out111, b = notloadBit, out = notout111notloadBit);
+    Nand(a = notresReset11loadBit, b = notout111notloadBit, out = out211);
+
+    Nand(a = resReset12, b = loadBit, out = notresReset12loadBit);
+    Nand(a = out112, b = notloadBit, out = notout112notloadBit);
+    Nand(a = notresReset12loadBit, b = notout112notloadBit, out = out212);
+
+    Nand(a = resReset13, b = loadBit, out = notresReset13loadBit);
+    Nand(a = out113, b = notloadBit, out = notout113notloadBit);
+    Nand(a = notresReset13loadBit, b = notout113notloadBit, out = out213);
+
+    Nand(a = resReset14, b = loadBit, out = notresReset14loadBit);
+    Nand(a = out114, b = notloadBit, out = notout114notloadBit);
+    Nand(a = notresReset14loadBit, b = notout114notloadBit, out = out214);
+
+    Nand(a = resReset15, b = loadBit, out = notresReset15loadBit);
+    Nand(a = out115, b = notloadBit, out = notout115notloadBit);
+    Nand(a = notresReset15loadBit, b = notout115notloadBit, out = out215);
+
+    // Find out[i] = DFF(input = out2, load = loadBit)
+    DFF(in = out20, out = out10, out = out[0]);
+    DFF(in = out21, out = out11, out = out[1]);
+    DFF(in = out22, out = out12, out = out[2]);
+    DFF(in = out23, out = out13, out = out[3]);
+    DFF(in = out24, out = out14, out = out[4]);
+    DFF(in = out25, out = out15, out = out[5]);
+    DFF(in = out26, out = out16, out = out[6]);
+    DFF(in = out27, out = out17, out = out[7]);
+    DFF(in = out28, out = out18, out = out[8]);
+    DFF(in = out29, out = out19, out = out[9]);
+    DFF(in = out210, out = out110, out = out[10]);
+    DFF(in = out211, out = out111, out = out[11]);
+    DFF(in = out212, out = out112, out = out[12]);
+    DFF(in = out213, out = out113, out = out[13]);
+    DFF(in = out214, out = out114, out = out[14]);
+    DFF(in = out215, out = out115, out = out[15]);
+}
