@@ -1,0 +1,99 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/03/a/Register.hdl
+
+/**
+ * 16-bit register:
+ * If load[t] == 1 then out[t+1] = in[t]
+ * else out does not change
+ */
+
+CHIP Register {
+    IN in[16], load;
+    OUT out[16];
+
+    PARTS:
+    // Put your code here:
+    Nand(a = load, b = load, out = notLoad);
+
+    Nand(a = in[0], b = load, out = notIn0Load);
+    Nand(a = in20, b = notLoad, out = notIn20notLoad);
+    Nand(a = notIn0Load, b = notIn20notLoad, out = out10);
+    DFF(in = out10, out = in20, out = out[0]);
+
+    Nand(a = in[1], b = load, out = notIn1Load);
+    Nand(a = in21, b = notLoad, out = notIn21notLoad);
+    Nand(a = notIn1Load, b = notIn21notLoad, out = out11);
+    DFF(in = out11, out = in21, out = out[1]);
+
+    Nand(a = in[2], b = load, out = notIn2Load);
+    Nand(a = in22, b = notLoad, out = notIn22notLoad);
+    Nand(a = notIn2Load, b = notIn22notLoad, out = out12);
+    DFF(in = out12, out = in22, out = out[2]);
+
+    Nand(a = in[3], b = load, out = notIn3Load);
+    Nand(a = in23, b = notLoad, out = notIn23notLoad);
+    Nand(a = notIn3Load, b = notIn23notLoad, out = out13);
+    DFF(in = out13, out = in23, out = out[3]);
+
+    Nand(a = in[4], b = load, out = notIn4Load);
+    Nand(a = in24, b = notLoad, out = notIn24notLoad);
+    Nand(a = notIn4Load, b = notIn24notLoad, out = out14);
+    DFF(in = out14, out = in24, out = out[4]);
+
+    Nand(a = in[5], b = load, out = notIn5Load);
+    Nand(a = in25, b = notLoad, out = notIn25notLoad);
+    Nand(a = notIn5Load, b = notIn25notLoad, out = out15);
+    DFF(in = out15, out = in25, out = out[5]);
+
+    Nand(a = in[6], b = load, out = notIn6Load);
+    Nand(a = in26, b = notLoad, out = notIn26notLoad);
+    Nand(a = notIn6Load, b = notIn26notLoad, out = out16);
+    DFF(in = out16, out = in26, out = out[6]);
+
+    Nand(a = in[7], b = load, out = notIn7Load);
+    Nand(a = in27, b = notLoad, out = notIn27notLoad);
+    Nand(a = notIn7Load, b = notIn27notLoad, out = out17);
+    DFF(in = out17, out = in27, out = out[7]);
+
+    Nand(a = in[8], b = load, out = notIn8Load);
+    Nand(a = in28, b = notLoad, out = notIn28notLoad);
+    Nand(a = notIn8Load, b = notIn28notLoad, out = out18);
+    DFF(in = out18, out = in28, out = out[8]);
+
+    Nand(a = in[9], b = load, out = notIn9Load);
+    Nand(a = in29, b = notLoad, out = notIn29notLoad);
+    Nand(a = notIn9Load, b = notIn29notLoad, out = out19);
+    DFF(in = out19, out = in29, out = out[9]);
+
+    Nand(a = in[10], b = load, out = notIn10Load);
+    Nand(a = in210, b = notLoad, out = notIn210notLoad);
+    Nand(a = notIn10Load, b = notIn210notLoad, out = out110);
+    DFF(in = out110, out = in210, out = out[10]);
+
+    Nand(a = in[11], b = load, out = notIn11Load);
+    Nand(a = in211, b = notLoad, out = notIn211notLoad);
+    Nand(a = notIn11Load, b = notIn211notLoad, out = out111);
+    DFF(in = out111, out = in211, out = out[11]);
+
+    Nand(a = in[12], b = load, out = notIn12Load);
+    Nand(a = in212, b = notLoad, out = notIn212notLoad);
+    Nand(a = notIn12Load, b = notIn212notLoad, out = out112);
+    DFF(in = out112, out = in212, out = out[12]);
+
+    Nand(a = in[13], b = load, out = notIn13Load);
+    Nand(a = in213, b = notLoad, out = notIn213notLoad);
+    Nand(a = notIn13Load, b = notIn213notLoad, out = out113);
+    DFF(in = out113, out = in213, out = out[13]);
+
+    Nand(a = in[14], b = load, out = notIn14Load);
+    Nand(a = in214, b = notLoad, out = notIn214notLoad);
+    Nand(a = notIn14Load, b = notIn214notLoad, out = out114);
+    DFF(in = out114, out = in214, out = out[14]);
+
+    Nand(a = in[15], b = load, out = notIn15Load);
+    Nand(a = in215, b = notLoad, out = notIn215notLoad);
+    Nand(a = notIn15Load, b = notIn215notLoad, out = out115);
+    DFF(in = out115, out = in215, out = out[15]);
+}
