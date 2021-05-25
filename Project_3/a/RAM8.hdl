@@ -16,8 +16,8 @@ CHIP RAM8 {
 
     PARTS:
     // Put your code here:
-    /** Beginning doing RAM and any devices larger
-      * I use module instead of using nand gate literal
+    /** Begining doing RAM and any devices larger
+      * I use module instead of using NAND gate literal
       */
     DMux8Way(in=load, sel=address, a=load0, b=load1, c=load2, d=load3,
              e=load4, f=load5, g=load6, h=load7);
